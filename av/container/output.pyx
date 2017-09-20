@@ -129,7 +129,10 @@ cdef class OutputContainer(Container):
             ctx = stream.codec_context
             if not ctx.is_open:
 
-                ctx.options.update(self.options)
+                if ctx.options:
+                    ctx.options.update(self.options)
+                else:
+                    ctx.options = dict(self.options)
                 ctx.open()
 
                 # Track option consumption.
